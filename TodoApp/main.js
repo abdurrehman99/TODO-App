@@ -1,3 +1,4 @@
+var row_length=0;
 $('#item-add').on('click',function()
 {
     var item = $('#input-item').val();
@@ -19,6 +20,7 @@ $('#item-add').on('click',function()
         <button class="btn btn-success mx-1 edit-btn"><i class="fa fa-edit"></i></button></td>
         </tr>`);
         $('#input-item').val('');
+        row_length++;
     }
 });
 
@@ -35,6 +37,7 @@ $(document).on('click','.del-btn',function()
       {
         if (willDelete) {
             $(this).closest('tr').fadeOut();
+            row_length--;
             swal({
             icon: "info",
             title : 'Deleted !',
@@ -69,21 +72,32 @@ $(document).on('click','.edit-btn',function()
 
 $('#del-all').on('click',function()
 {
+  if(row_length == 0)
+  {
     swal({
-        title: "Delete all TODO items ?",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-        closeOnClickOutside: false,
-      })
-      .then((willDelete) => 
-      {
-        if (willDelete) {
-            $('#item-list tr').remove();
-            swal({
-            icon: "info",
-            title : 'TODO list cleared !',
-          });
-        } 
-      });
+      title: "No items found in TODO list !",
+      icon: "warning",
+      dangerMode: true,
+    });
+  }
+  else
+  {
+    swal({
+      title: "Delete all TODO items ?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+      closeOnClickOutside: false,
+    })
+    .then((willDelete) => 
+    {
+      if (willDelete) {
+          $('#item-list tr').remove();
+          swal({
+          icon: "info",
+          title : 'TODO list cleared !',
+        });
+      } 
+    });
+  }
 });
