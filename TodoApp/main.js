@@ -6,7 +6,7 @@ $('#item-add').on('click',function()
     {
         swal(
             {
-                icon :'error',
+                icon :'info',
                 title : 'Input field is empty !',
                 closeOnClickOutside: false,
             }
@@ -53,21 +53,30 @@ $(document).on('click','.edit-btn',function()
         title : 'Edit your TODO item',
         content: "input",
         icon : 'info',
-        buttons: true,
         closeOnClickOutside: false,
 
       })
       .then((value) => {
-        swal({
+        if(value != '')
+        {
+          swal({
             icon: "success",
             title : 'Edited !',
           });
-        $(this).closest('tr').replaceWith(`<tr>
-        <td class="mt-4">${value}</td>
-        <td><button class="btn btn-danger mx-1 del-btn"><i class="fa fa-trash"></i></button>
-        <button class="btn btn-success mx-1 edit-btn"><i class="fa fa-edit"></i></button></td>
-        </tr>`);
-      })
+          $(this).closest('tr').replaceWith(`<tr>
+          <td class="mt-4">${value}</td>
+          <td><button class="btn btn-danger mx-1 del-btn"><i class="fa fa-trash"></i></button>
+          <button class="btn btn-success mx-1 edit-btn"><i class="fa fa-edit"></i></button></td>
+          </tr>`);
+        }
+        else
+        {
+          swal({
+            icon: "warning",
+            title : 'Empty field !',
+          });
+        }
+      });
 });
 
 $('#del-all').on('click',function()
@@ -97,6 +106,7 @@ $('#del-all').on('click',function()
           icon: "info",
           title : 'TODO list cleared !',
         });
+        row_length=0;
       } 
     });
   }
